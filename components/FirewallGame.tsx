@@ -318,24 +318,24 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-12 h-full preserve-3d">
+    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-4 md:pt-12 h-full preserve-3d">
         
         {/* Header */}
         <div className="mb-6 text-center preserve-3d w-full">
-             <h2 className="text-5xl font-mono font-bold text-red-500 mb-2 tracking-widest flex items-center justify-center gap-3" style={{ textShadow: '0 0 20px rgba(239,68,68,0.6)' }}>
+             <h2 className="text-3xl md:text-5xl font-mono font-bold text-red-500 mb-2 tracking-widest flex items-center justify-center gap-3" style={{ textShadow: '0 0 20px rgba(239,68,68,0.6)' }}>
                 <Shield size={48} /> FIREWALL FRENZY
             </h2>
-            <p className="text-gray-400">Defense Level {wave}. New threat vectors active.</p>
+            <p className="text-gray-400 text-sm md:text-base">Defense Level {wave}. New threat vectors active.</p>
         </div>
 
-        <div className="w-full max-w-5xl bg-black/80 backdrop-blur-xl border border-red-500/30 rounded-3xl shadow-[0_0_50px_rgba(220,38,38,0.2)] overflow-hidden relative min-h-[600px] flex flex-col preserve-3d">
+        <div className="w-full max-w-5xl bg-black/80 backdrop-blur-xl border border-red-500/30 rounded-3xl shadow-[0_0_50px_rgba(220,38,38,0.2)] overflow-hidden relative min-h-[50vh] md:min-h-[600px] flex flex-col preserve-3d">
             
             {/* Menu Overlay */}
             {gameState === 'menu' && (
                 <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/90 animate-fade-in p-8">
                     <Shield size={80} className="text-red-500 mb-6 animate-pulse" />
-                    <h3 className="text-3xl font-bold text-white mb-4">System Breach Detected</h3>
-                    <p className="text-gray-400 max-w-md text-center mb-8">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">System Breach Detected</h3>
+                    <p className="text-gray-400 max-w-md text-center mb-8 text-sm md:text-base">
                         Incoming packets now contain <strong>Origin</strong> and <strong>Content Type</strong> metadata.
                         <br/>Adapt your filters accordingly.
                     </p>
@@ -347,14 +347,14 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
                                 key={lvl}
                                 onClick={() => setDifficulty(lvl)}
                                 className={`
-                                    px-6 py-4 rounded-xl border-2 flex flex-col items-center min-w-[120px] transition-all
+                                    px-4 md:px-6 py-4 rounded-xl border-2 flex flex-col items-center min-w-[100px] md:min-w-[120px] transition-all
                                     ${difficulty === lvl 
                                         ? `bg-gray-800 ${DIFFICULTY_CONFIG[lvl].color} border-current scale-110 shadow-lg` 
                                         : 'bg-black border-gray-800 text-gray-500 hover:border-gray-600'}
                                 `}
                             >
                                 <div className="mb-2">{lvl === 'recruit' ? <Shield size={20}/> : lvl === 'agent' ? <Gauge size={20}/> : <Skull size={20}/>}</div>
-                                <div className="font-bold uppercase text-sm">{DIFFICULTY_CONFIG[lvl].label}</div>
+                                <div className="font-bold uppercase text-xs md:text-sm">{DIFFICULTY_CONFIG[lvl].label}</div>
                                 <div className="text-[10px] mt-1 opacity-70">{DIFFICULTY_CONFIG[lvl].xpMulti}x XP</div>
                             </button>
                         ))}
@@ -384,23 +384,23 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
             )}
 
             {/* HUD */}
-            <div className="bg-gray-900/90 p-4 border-b border-gray-700 flex justify-between items-center relative z-20">
+            <div className="bg-gray-900/90 p-2 md:p-4 border-b border-gray-700 flex justify-between items-center relative z-20">
                 <div className="flex items-center gap-6">
-                     <div className="bg-black/50 px-4 py-2 rounded border border-red-500/30">
-                         <div className="text-[10px] text-red-500 uppercase font-bold mb-1 flex items-center gap-2">
+                     <div className="bg-black/50 px-2 md:px-4 py-2 rounded border border-red-500/30">
+                         <div className="text-[8px] md:text-[10px] text-red-500 uppercase font-bold mb-1 flex items-center gap-2">
                             <span>Active Policy (Wave {wave})</span>
                             {currentRule?.type === 'origin' && <Flag size={12}/>}
                             {currentRule?.type === 'content' && <Database size={12}/>}
                          </div>
-                         <div className="text-xl font-bold text-white animate-pulse">{currentRule?.description || 'Initializing...'}</div>
+                         <div className="text-sm md:text-xl font-bold text-white animate-pulse leading-tight">{currentRule?.description || 'Initializing...'}</div>
                      </div>
                 </div>
-                <div className="flex items-center gap-6">
-                    <div className="text-right">
+                <div className="flex items-center gap-4 md:gap-6">
+                    <div className="text-right hidden sm:block">
                         <div className="text-[10px] text-gray-500 uppercase font-bold">Score</div>
                         <div className="text-2xl font-mono text-white">{score}</div>
                     </div>
-                    <div className="w-48">
+                    <div className="w-32 md:w-48">
                         <div className="flex justify-between text-xs mb-1">
                             <span className="text-gray-400 flex items-center gap-1"><Server size={12}/> Integrity</span>
                             <span className={health < 30 ? "text-red-500 font-bold" : "text-green-500"}>{health}%</span>
@@ -420,7 +420,7 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
                 </div>
 
                 {/* Server Zone */}
-                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-red-900/20 to-transparent border-l border-red-500/20 flex items-center justify-center">
+                <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 bg-gradient-to-l from-red-900/20 to-transparent border-l border-red-500/20 flex items-center justify-center">
                     <div className="text-center opacity-50">
                         <Server size={64} className="text-red-500 mx-auto mb-2" />
                         <div className="text-xs font-mono text-red-500">MAINFRAME</div>
@@ -444,7 +444,7 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
                             }}
                         >
                             {/* 3D Cube Packet */}
-                            <div className="relative w-16 h-16 preserve-3d animate-float" style={{ animationDuration: packet.variant === 'worm' ? '1s' : '3s' }}>
+                            <div className="relative w-14 h-14 md:w-16 md:h-16 preserve-3d animate-float" style={{ animationDuration: packet.variant === 'worm' ? '1s' : '3s' }}>
                                 <div className={`
                                     absolute inset-0 border-2 rounded-lg flex flex-col items-center justify-center backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-colors
                                     ${currentRule?.validator(packet) 
@@ -457,7 +457,7 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
                                     <div className="absolute top-1 left-1 text-[8px] font-bold bg-black/50 px-1 rounded">{packet.origin}</div>
 
                                     <div className="text-xs font-bold mb-1">{packet.protocol}</div>
-                                    <div className="text-2xl font-mono font-bold">{packet.port}</div>
+                                    <div className="text-xl md:text-2xl font-mono font-bold">{packet.port}</div>
                                     
                                     {/* Special Variant Indicator */}
                                     {packet.variant !== 'standard' && (
@@ -484,7 +484,7 @@ const FirewallGame: React.FC<FirewallGameProps> = ({ addXP }) => {
         </div>
 
         {/* Legend Footer */}
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-wrap justify-center gap-2 md:gap-4">
              <div className="flex items-center gap-2 text-xs text-gray-500 border border-gray-700 px-3 py-2 rounded bg-black/40">
                  <Flag size={14} className="text-neon-blue"/> <span>Origin</span>
              </div>

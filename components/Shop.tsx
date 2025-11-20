@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ShopItem, PlayerStats } from '../types';
 import { ShoppingBag, Check, Lock, Layout, User, Zap, Clock } from 'lucide-react';
@@ -104,45 +105,45 @@ const Shop: React.FC<ShopProps> = ({ stats, onPurchase, onEquip, onExit }) => {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-12 h-full preserve-3d">
+    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-4 md:pt-12 h-full preserve-3d">
       {/* Header */}
       <div className="mb-8 flex justify-between items-end w-full preserve-3d border-b border-white/10 pb-4">
         <div>
-            <h2 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-                <ShoppingBag className="text-neon-pink" size={40} /> Cyber Deck Store
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <ShoppingBag className="text-neon-pink" size={32} /> <span className="hidden md:inline">Cyber Deck</span> Store
             </h2>
-            <p className="text-gray-400">Upgrade your neural interface.</p>
+            <p className="text-gray-400 text-sm md:text-base">Upgrade your neural interface.</p>
         </div>
         <div className="text-right">
-             <div className="text-sm text-gray-500 uppercase font-bold">Available Credit</div>
-             <div className="text-3xl font-mono font-bold text-neon-green">{stats.xp} XP</div>
+             <div className="text-[10px] md:text-sm text-gray-500 uppercase font-bold">Available Credit</div>
+             <div className="text-xl md:text-3xl font-mono font-bold text-neon-green">{stats.xp} XP</div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-8 preserve-3d w-full justify-center">
+      <div className="flex gap-4 mb-8 preserve-3d w-full justify-start md:justify-center overflow-x-auto pb-2 scrollbar-hide">
           <button 
             onClick={() => setActiveTab('theme')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'theme' ? 'bg-neon-blue text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'theme' ? 'bg-neon-blue text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <Layout size={18} /> Themes
           </button>
           <button 
             onClick={() => setActiveTab('avatar')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'avatar' ? 'bg-neon-purple text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'avatar' ? 'bg-neon-purple text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <User size={18} /> Avatars
           </button>
           <button 
             onClick={() => setActiveTab('upgrade')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'upgrade' ? 'bg-yellow-500 text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'upgrade' ? 'bg-yellow-500 text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <Zap size={18} /> Upgrades
           </button>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full preserve-3d">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full preserve-3d pb-20">
           {filteredItems.map((item, idx) => {
               const isOwned = stats.inventory.includes(item.id);
               const isEquipped = stats.equipped.theme === item.id || stats.equipped.avatar === item.id;
@@ -211,7 +212,7 @@ const Shop: React.FC<ShopProps> = ({ stats, onPurchase, onEquip, onExit }) => {
           })}
       </div>
       
-      <button onClick={onExit} className="mt-12 text-gray-500 hover:text-white underline">Return to Dashboard</button>
+      <button onClick={onExit} className="mt-4 text-gray-500 hover:text-white underline md:hidden pb-10">Return to Dashboard</button>
     </div>
   );
 };

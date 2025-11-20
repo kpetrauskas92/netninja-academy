@@ -10,46 +10,48 @@ const SandboxMode: React.FC<SandboxModeProps> = ({ onExit }) => {
   const [activeTab, setActiveTab] = useState<'binary' | 'subnet' | 'hex'>('binary');
 
   return (
-    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-12 h-full preserve-3d">
+    <div className="flex flex-col items-center max-w-6xl mx-auto p-4 pt-4 md:pt-12 h-full preserve-3d">
        {/* Header */}
        <div className="mb-8 flex justify-between items-end w-full preserve-3d border-b border-white/10 pb-4">
         <div>
-            <h2 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-                <Sliders className="text-neon-green" size={40} /> Sandbox Mode
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <Sliders className="text-neon-green" size={32} /> Sandbox Mode
             </h2>
-            <p className="text-gray-400">Experimental playgrounds. No score, no pressure.</p>
+            <p className="text-gray-400 text-sm md:text-base">Experimental playgrounds. No score, no pressure.</p>
         </div>
-        <button onClick={onExit} className="text-gray-500 hover:text-white underline">Exit Sandbox</button>
+        <button onClick={onExit} className="text-gray-500 hover:text-white underline hidden md:block">Exit Sandbox</button>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-8 preserve-3d w-full justify-center">
+      <div className="flex gap-4 mb-8 preserve-3d w-full justify-start md:justify-center overflow-x-auto pb-2 scrollbar-hide">
           <button 
             onClick={() => setActiveTab('binary')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'binary' ? 'bg-neon-blue text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'binary' ? 'bg-neon-blue text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <Cpu size={18} /> 32-Bit Binary
           </button>
           <button 
             onClick={() => setActiveTab('subnet')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'subnet' ? 'bg-neon-green text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'subnet' ? 'bg-neon-green text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <Network size={18} /> Subnet Calc
           </button>
           <button 
             onClick={() => setActiveTab('hex')} 
-            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all ${activeTab === 'hex' ? 'bg-neon-pink text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+            className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all whitespace-nowrap ${activeTab === 'hex' ? 'bg-neon-pink text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
           >
             <Palette size={18} /> Color Hex
           </button>
       </div>
 
       {/* Content Area */}
-      <div className="w-full bg-black/60 backdrop-blur-xl border border-gray-700 p-8 rounded-2xl shadow-2xl preserve-3d min-h-[500px]">
+      <div className="w-full bg-black/60 backdrop-blur-xl border border-gray-700 p-4 md:p-8 rounded-2xl shadow-2xl preserve-3d min-h-[500px]">
           {activeTab === 'binary' && <BinarySandbox />}
           {activeTab === 'subnet' && <SubnetSandbox />}
           {activeTab === 'hex' && <HexSandbox />}
       </div>
+      
+      <button onClick={onExit} className="mt-8 text-gray-500 hover:text-white underline md:hidden pb-8">Exit Sandbox</button>
     </div>
   );
 };
@@ -81,17 +83,17 @@ const BinarySandbox = () => {
     return (
         <div className="flex flex-col items-center gap-8 animate-fade-in">
             <div className="text-center">
-                <div className="text-sm text-gray-500 uppercase tracking-widest mb-2">Unsigned 32-bit Integer</div>
-                <div className="text-5xl font-mono font-bold text-neon-blue mb-4">{getIntValue().toLocaleString()}</div>
-                <div className="text-xl font-mono text-gray-400 bg-black/40 px-4 py-2 rounded border border-white/5 inline-block">
+                <div className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mb-2">Unsigned 32-bit Integer</div>
+                <div className="text-3xl md:text-5xl font-mono font-bold text-neon-blue mb-4 break-all">{getIntValue().toLocaleString()}</div>
+                <div className="text-sm md:text-xl font-mono text-gray-400 bg-black/40 px-4 py-2 rounded border border-white/5 inline-block">
                     IP Format: <span className="text-white">{getDottedDecimal()}</span>
                 </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-8 max-w-4xl">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 max-w-4xl">
                 {/* Render 4 Octets */}
                 {[0, 1, 2, 3].map(octetIdx => (
-                    <div key={octetIdx} className="flex gap-1 p-4 bg-gray-900/50 rounded-xl border border-gray-700">
+                    <div key={octetIdx} className="flex gap-1 p-2 md:p-4 bg-gray-900/50 rounded-xl border border-gray-700">
                         {Array.from({length: 8}).map((_, bitIdx) => {
                             const globalIndex = (octetIdx * 8) + bitIdx;
                             const bit = bits[globalIndex];
@@ -100,11 +102,11 @@ const BinarySandbox = () => {
                                 <button 
                                     key={globalIndex}
                                     onClick={() => toggleBit(globalIndex)}
-                                    className={`w-8 h-16 rounded flex flex-col items-center justify-between py-1 transition-all hover:scale-110 ${bit ? 'bg-neon-blue text-black shadow-[0_0_10px_#00f3ff]' : 'bg-gray-800 text-gray-600 hover:bg-gray-700'}`}
+                                    className={`w-6 h-12 md:w-8 md:h-16 rounded flex flex-col items-center justify-between py-1 transition-all hover:scale-110 ${bit ? 'bg-neon-blue text-black shadow-[0_0_10px_#00f3ff]' : 'bg-gray-800 text-gray-600 hover:bg-gray-700'}`}
                                     title={`2^${power} = ${Math.pow(2, power).toLocaleString()}`}
                                 >
-                                    <span className="font-bold">{bit}</span>
-                                    <span className="text-[8px] opacity-50">{globalIndex % 8 === 7 ? 1 : ''}</span>
+                                    <span className="font-bold text-xs md:text-base">{bit}</span>
+                                    <span className="text-[6px] md:text-[8px] opacity-50">{globalIndex % 8 === 7 ? 1 : ''}</span>
                                 </button>
                             )
                         })}
@@ -181,10 +183,10 @@ const SubnetSandbox = () => {
 
                  {/* Binary Viz */}
                  {isValid && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 font-mono text-sm space-y-2 overflow-x-auto">
-                        <div className="flex justify-between"><span className="text-gray-500">IP:</span> <span className="text-gray-300">{intToBinaryStr(ipInt)}</span></div>
-                        <div className="flex justify-between border-b border-gray-700 pb-2"><span className="text-gray-500">Mask:</span> <span className="text-neon-green">{intToBinaryStr(maskInt)}</span></div>
-                        <div className="flex justify-between pt-2"><span className="text-gray-500">Net:</span> <span className="text-neon-blue">{intToBinaryStr(networkInt)}</span></div>
+                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 font-mono text-xs md:text-sm space-y-2 overflow-x-auto">
+                        <div className="flex justify-between gap-4"><span className="text-gray-500">IP:</span> <span className="text-gray-300">{intToBinaryStr(ipInt)}</span></div>
+                        <div className="flex justify-between gap-4 border-b border-gray-700 pb-2"><span className="text-gray-500">Mask:</span> <span className="text-neon-green">{intToBinaryStr(maskInt)}</span></div>
+                        <div className="flex justify-between gap-4 pt-2"><span className="text-gray-500">Net:</span> <span className="text-neon-blue">{intToBinaryStr(networkInt)}</span></div>
                     </div>
                  )}
              </div>
@@ -193,7 +195,7 @@ const SubnetSandbox = () => {
              <div className="bg-gray-900/80 rounded-xl p-6 border border-gray-700 shadow-inner">
                  <h3 className="text-neon-green font-bold text-lg mb-4 flex items-center gap-2"><Network size={20}/> Network Analysis</h3>
                  
-                 <div className="space-y-4 font-mono">
+                 <div className="space-y-4 font-mono text-sm md:text-base">
                     <ResultRow label="Network Address" value={isValid ? intToIp(networkInt) : '-'} />
                     <ResultRow label="Broadcast Address" value={isValid ? intToIp(broadcastInt) : '-'} />
                     <div className="h-px bg-gray-700 my-2"></div>
@@ -210,8 +212,8 @@ const SubnetSandbox = () => {
 
 const ResultRow = ({label, value, highlight}: {label: string, value: string, highlight?: boolean}) => (
     <div className="flex justify-between items-center">
-        <span className="text-gray-500 text-sm">{label}</span>
-        <span className={`font-bold text-lg ${highlight ? 'text-neon-green' : 'text-white'}`}>{value}</span>
+        <span className="text-gray-500 text-xs md:text-sm">{label}</span>
+        <span className={`font-bold text-base md:text-lg ${highlight ? 'text-neon-green' : 'text-white'}`}>{value}</span>
     </div>
 );
 
@@ -242,7 +244,7 @@ const HexSandbox = () => {
     }, [r, g, b]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center animate-fade-in">
             
             {/* Controls */}
             <div className="space-y-8">
@@ -272,7 +274,7 @@ const HexSandbox = () => {
             {/* Preview */}
             <div className="flex flex-col items-center">
                  <div 
-                    className="w-64 h-64 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.5)] border-4 border-white/20 relative mb-6 transition-all duration-200"
+                    className="w-48 h-48 md:w-64 md:h-64 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.5)] border-4 border-white/20 relative mb-6 transition-all duration-200"
                     style={{ backgroundColor: `#${hex}`, boxShadow: `0 0 40px #${hex}` }}
                  >
                      {/* Glare effect */}

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { getExplanation } from '../services/geminiService';
-import { RefreshCw, HelpCircle, Hash, Keyboard, ArrowRightLeft, XCircle, AlertTriangle, Lightbulb, CheckCircle } from 'lucide-react';
+import { RefreshCw, HelpCircle, Hash, Keyboard, ArrowRightLeft, XCircle, AlertTriangle, Lightbulb, CheckCircle, ArrowDown } from 'lucide-react';
 
 interface HexGameProps {
   addXP: (amount: number) => void;
@@ -138,13 +138,16 @@ const HexGame: React.FC<HexGameProps> = ({ addXP }) => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-12 preserve-3d">
-            <div className="bg-gray-900/80 p-8 rounded-xl border border-gray-700 text-center min-w-[220px] shadow-xl transform hover:translate-z-10 transition-transform duration-500 preserve-3d">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-8 md:mb-12 preserve-3d">
+            <div className="bg-gray-900/80 p-6 md:p-8 rounded-xl border border-gray-700 text-center min-w-[220px] shadow-xl transform hover:translate-z-10 transition-transform duration-500 preserve-3d w-full md:w-auto">
                 <div className="text-gray-500 text-xs uppercase tracking-widest mb-2">{sourceLabel}</div>
-                <div className="text-4xl font-bold text-white font-mono">{sourceValue}</div>
+                <div className="text-3xl md:text-4xl font-bold text-white font-mono break-all">{sourceValue}</div>
             </div>
-            <ArrowRightLeft className="text-gray-600 animate-pulse" size={32} />
-            <div className={`bg-black/60 p-8 rounded-xl border border-dashed min-w-[220px] transform hover:translate-z-10 transition-transform duration-500 preserve-3d relative ${result === 'incorrect' ? 'border-red-500 animate-shake' : formatError ? 'border-yellow-500' : 'border-gray-700'}`}>
+            
+            <div className="text-gray-600 animate-pulse hidden md:block"><ArrowRightLeft size={32} /></div>
+            <div className="text-gray-600 animate-pulse md:hidden"><ArrowDown size={32} /></div>
+
+            <div className={`bg-black/60 p-6 md:p-8 rounded-xl border border-dashed min-w-[220px] transform hover:translate-z-10 transition-transform duration-500 preserve-3d relative w-full md:w-auto ${result === 'incorrect' ? 'border-red-500 animate-shake' : formatError ? 'border-yellow-500' : 'border-gray-700'}`}>
                 <div className="text-gray-500 text-xs uppercase tracking-widest mb-2 text-center">{targetLabel}</div>
                 <input 
                     type="text" 
@@ -152,7 +155,7 @@ const HexGame: React.FC<HexGameProps> = ({ addXP }) => {
                     onChange={handleInputChange}
                     onKeyDown={(e) => e.key === 'Enter' && checkTranslation()}
                     placeholder="?"
-                    className={`bg-transparent text-4xl font-bold font-mono text-center w-full focus:outline-none placeholder-gray-700 ${result === 'incorrect' ? 'text-red-500' : formatError ? 'text-yellow-500' : 'text-white'}`}
+                    className={`bg-transparent text-3xl md:text-4xl font-bold font-mono text-center w-full focus:outline-none placeholder-gray-700 ${result === 'incorrect' ? 'text-red-500' : formatError ? 'text-yellow-500' : 'text-white'}`}
                     autoFocus
                 />
                 {formatError && (
@@ -166,36 +169,36 @@ const HexGame: React.FC<HexGameProps> = ({ addXP }) => {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-5xl mx-auto p-4 h-full preserve-3d pt-12">
+    <div className="flex flex-col items-center max-w-5xl mx-auto p-4 h-full preserve-3d pt-4 md:pt-12">
       <div className="mb-6 text-center preserve-3d">
-        <h2 className="text-5xl font-mono font-bold text-neon-purple mb-4" style={{ textShadow: '0 0 30px rgba(188,19,254,0.6)' }}>Hex Hero</h2>
+        <h2 className="text-3xl md:text-5xl font-mono font-bold text-neon-purple mb-4" style={{ textShadow: '0 0 30px rgba(188,19,254,0.6)' }}>Hex Hero</h2>
         <div className="flex justify-center gap-4 bg-black/30 p-2 rounded-full inline-flex border border-white/10 backdrop-blur-sm">
-            <button onClick={() => setMode('match')} className={`px-6 py-2 rounded-full transition-all ${mode === 'match' ? 'bg-neon-purple text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Match</button>
-            <button onClick={() => setMode('translate')} className={`px-6 py-2 rounded-full transition-all ${mode === 'translate' ? 'bg-neon-blue text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>Translate</button>
+            <button onClick={() => setMode('match')} className={`px-6 py-2 rounded-full transition-all text-sm md:text-base ${mode === 'match' ? 'bg-neon-purple text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Match</button>
+            <button onClick={() => setMode('translate')} className={`px-6 py-2 rounded-full transition-all text-sm md:text-base ${mode === 'translate' ? 'bg-neon-blue text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>Translate</button>
         </div>
       </div>
 
-      <div className="bg-neon-card/80 backdrop-blur-xl p-10 rounded-3xl border border-neon-purple/20 shadow-2xl w-full relative preserve-3d transform transition-transform hover:scale-[1.01] duration-700">
+      <div className="bg-neon-card/80 backdrop-blur-xl p-6 md:p-10 rounded-3xl border border-neon-purple/20 shadow-2xl w-full relative preserve-3d transform transition-transform hover:scale-[1.01] duration-700">
           
           <div>
               {mode === 'match' ? (
-                  <div className="flex justify-center mb-12 preserve-3d">
-                     <div className="bg-gray-900 rounded-2xl p-8 border border-gray-600 text-center min-w-[250px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform hover:rotate-x-12 transition-transform duration-500 cursor-default">
+                  <div className="flex justify-center mb-8 md:mb-12 preserve-3d">
+                     <div className="bg-gray-900 rounded-2xl p-6 md:p-8 border border-gray-600 text-center min-w-[200px] md:min-w-[250px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform hover:rotate-x-12 transition-transform duration-500 cursor-default">
                         <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Decimal Value</p>
-                        <p className="text-6xl font-bold text-white">{decimal}</p>
+                        <p className="text-5xl md:text-6xl font-bold text-white">{decimal}</p>
                      </div>
                   </div>
               ) : renderTranslateHeader()}
 
               {/* Game Area */}
               {mode === 'match' && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 preserve-3d">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 preserve-3d">
                     {options.map((opt, idx) => (
                       <button
                         key={opt}
                         onClick={() => handleSelect(opt)}
                         className={`
-                          p-6 text-3xl font-mono font-bold rounded-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:rotate-3 hover:shadow-xl preserve-3d
+                          p-4 md:p-6 text-2xl md:text-3xl font-mono font-bold rounded-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:rotate-3 hover:shadow-xl preserve-3d
                           ${selected === opt 
                             ? (opt === correctHex 
                                 ? 'bg-neon-green/20 border-neon-green text-neon-green shadow-neon-green/40' 
@@ -216,7 +219,7 @@ const HexGame: React.FC<HexGameProps> = ({ addXP }) => {
                       <button 
                           onClick={checkTranslation} 
                           disabled={result === 'correct' || !!formatError} 
-                          className={`px-10 py-3 rounded-full font-bold text-lg transition-all shadow-lg 
+                          className={`px-8 md:px-10 py-3 rounded-full font-bold text-base md:text-lg transition-all shadow-lg 
                           ${result === 'correct' ? 'bg-neon-green text-black' : formatError ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-white text-black hover:scale-105'}`}
                       >
                           {result === 'correct' ? 'DECODED' : 'VERIFY'}
